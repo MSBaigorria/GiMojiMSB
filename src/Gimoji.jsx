@@ -32,7 +32,7 @@ export const Gimoji = () => {
     );
     const { data } = await resp.json();
     setGifs(data);
-    console.log("holas")
+    
   };
 
   const onChangeByCategory = (event) => {
