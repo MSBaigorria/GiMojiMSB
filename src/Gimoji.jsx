@@ -4,6 +4,9 @@ import Banner from "./components/header/Banner";
 import SelecCategories from "./components/ui/SelecCategories";
 import Search from "./components/ui/Search";
 import GifCard from "./components/ui/GifCard";
+import {useFetch} from "./hooks/useFetch";
+// import Loading from "./components/ui/Loading"
+// import axios from "axios";
 
 // const noImage = import.meta.env.VITE_NO_IMAGE;
 const apiKey = import.meta.env.VITE_APIKEY_GIPHY;
@@ -13,19 +16,36 @@ export const Gimoji = () => {
   const [catagories, setCatagories] = useState([]);
   const [gifs, setGifs] = useState([]);
   const [search, setSearch] = useState("autos");
+  
+  const {data, isLoading} =useFetch(`${urlApi}gifs/categories?api_key=${apiKey}`);
+
   useEffect(() => {
     getCategories();
     getSearch();
-  }, []);
+  }, [data]);
+  
   useEffect(() => {
     getSearch();
   }, [search])
   
-  const getCategories = async () => {
-    const resp = await fetch(`${urlApi}gifs/categories?api_key=${apiKey}`);
-    const { data } = await resp.json();
+  
+  const getCategories =() => {
     setCatagories(data);
   };
+  
+
+  // const getCategories = async () => {
+  //   const resp = await fetch(`${urlApi}gifs/categories?api_key=${apiKey}`);
+  //   const { data } = await resp.json();
+  //   setCatagories(data);
+  // };
+
+  // const getCategories = async () => {
+  //   const categData = await AxiosGiphy.get(`gifs/categories?api_key=${apiKey}`);
+  //   const { data } = categData
+    // console.log(data.data)
+  //   setCatagories(data.data);
+  // };
 
   const getSearch = async () => {
     const resp = await fetch(`${urlApi}gifs/search?api_key=${apiKey}&q=${search}&limit=10&offset=0`
@@ -34,6 +54,14 @@ export const Gimoji = () => {
     setGifs(data);
     
   };
+
+  // const getSearch = async () => {
+  //   const searchData = await axiosGiphy(`gifs/search?api_key=${apiKey}&q=${search}&limit=10&offset=0`
+  //   );
+  //   const { data } =searchData
+  //   setGifs(data.data);
+    
+  // };
 
   const onChangeByCategory = (event) => {
     setSearch(event.target.value);
@@ -44,7 +72,9 @@ export const Gimoji = () => {
       setSearch(event.target.value)
     }
   }
-
+// if (isLoading) {
+//   return <Loading />
+// }
   return (
     <>
       <NavBar />

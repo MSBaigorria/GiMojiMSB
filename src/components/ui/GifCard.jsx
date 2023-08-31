@@ -4,7 +4,7 @@ const GifCard = ({ dataItemG }) => {
   const [like, setLike] = useState([])
 
   useEffect(() => {
-    console.log(like)
+    
   }, [like])
 
   const onclickLike=(gifId)=>{
